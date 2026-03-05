@@ -30,7 +30,7 @@ class Player {
 
 class Task {
   #xpMultiplier;
-  #streak = 100;
+  #streak = 1;
   isActive = true;
   #xp;
 
@@ -48,11 +48,19 @@ class Task {
 
   extendStreak() {
     this.#streak++;
-    return 0;
+    return this;
   }
 
   get totalXp() {
-    return this.#xp * (1 + this.#streak ** 0.3);
+    return this.#xp * this.#streak ** 0.3;
+  }
+
+  get xpFromStreak() {
+    return this.totalXp - this.#xp;
+  }
+
+  changeIsActive() {
+    this.isActive = !this.isActive;
   }
 }
 
@@ -61,4 +69,4 @@ const task = new Task("zakupy", "kupic chleb i maslo", 1);
 
 player.addXp();
 
-console.log(task.totalXp);
+console.log(task.extendStreak().extendStreak().xpFromStreak);
