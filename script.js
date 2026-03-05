@@ -3,7 +3,9 @@ class Player {
   xp = 0;
   tasks = [];
 
-  // constructor() {}
+  constructor(name) {
+    this.name = name;
+  }
 
   getNextLevelXp() {
     return 1000 * this.level ** 1.2;
@@ -26,6 +28,37 @@ class Player {
   }
 }
 
-const player = new Player();
+class Task {
+  #xpMultiplier;
+  #streak = 100;
+  isActive = true;
+  #xp;
+
+  constructor(name, description, xpMultiplier) {
+    this.name = name;
+    this.description = description;
+    this.#xpMultiplier = xpMultiplier;
+
+    this.#xp = this.#xpMultiplier * 100;
+  }
+
+  get streak() {
+    return this.#streak;
+  }
+
+  extendStreak() {
+    this.#streak++;
+    return 0;
+  }
+
+  get totalXp() {
+    return this.#xp * (1 + this.#streak ** 0.3);
+  }
+}
+
+const player = new Player("Kacper");
+const task = new Task("zakupy", "kupic chleb i maslo", 1);
 
 player.addXp();
+
+console.log(task.totalXp);
